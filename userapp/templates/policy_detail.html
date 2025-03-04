@@ -1,0 +1,23 @@
+{% load static %}
+{% include 'header.html' %}
+    <h1>{{ policy.name }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Details:</strong> {{ policy.details }}</p>
+            <p><strong>Cover Amount:</strong> {{ policy.cover_amount }}</p>
+            <p><strong>Created By:</strong> 
+                {% if policy.created_by %}
+                    {{ policy.created_by.username }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+            <p><strong>Created On:</strong> {{ policy.created_on }}</p>
+
+            <a href="{% url 'edit_policy' policy.id %}" class="btn btn-secondary">Edit</a>
+            <a href="{% url 'policy_list' %}" class="btn btn-primary">Back to List</a>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}

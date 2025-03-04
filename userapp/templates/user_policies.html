@@ -1,0 +1,53 @@
+{% extends 'base.html' %}  {% load static %}
+
+{% block content %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <span class="caption d-block mb-2 font-secondary font-weight-bold">My Policies</span>
+                <h2 class="site-section-heading text-uppercase text-center font-secondary">Policy Information</h2>
+            </div>
+        </div>
+
+        {% if policies %}
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">  <thead>
+                            <tr>
+                                <th>Policy Name</th>
+                                <th>Details</th>
+                                <th>Cover Amount</th>
+                                <th>Starting At</th>
+                                <th>Price</th>
+                                <th>Created On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for policy in policies %}
+                                <tr>
+                                    <td>{{ policy.name }}</td>
+                                    <td>{{ policy.details }}</td>
+                                    <td>{{ policy.cover_amount }}</td>
+                                    <td>{{ policy.starting_at }}</td>
+                                    <td>{{ policy.price }}</td>
+                                    <td>{{ policy.created_on }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <p>You haven't added any policies yet.</p>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

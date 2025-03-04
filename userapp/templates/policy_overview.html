@@ -1,0 +1,44 @@
+{% load static %}
+{% include 'header.html' %}
+
+<div class="wrapper"
+     style="background: url('{% if policy.image %}{{ policy.image.url }}{% else %}{% static 'images/default_background.jpg' %}{% endif %}') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;">
+    
+    <div class="container" style="max-width: 800px; background: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 10px; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);">
+        
+        <h1 class="text-center text-dark">{{ policy.name }}</h1>
+        <h2 class="text-center text-muted">{{ policy.provider_name }}</h2>
+
+        <div class="card shadow mt-3" style="background: rgba(255, 255, 255, 0.85);">
+            <div class="card-body">
+                <p><strong>Details:</strong> {{ policy.details }}</p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Cover Amount:</strong> {{ policy.cover_amount }}</p>
+                        <p><strong>Number of Months:</strong> {{ policy.no_months }}</p>
+                        <p><strong>Total Amount:</strong> {{ policy.total_amnt }}</p>
+                        <p><strong>Created On:</strong> {{ policy.created_on }}</p>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        {% if policy.image %}
+                            <img src="{{ policy.image.url }}" alt="Policy Image" style="width: 100%; max-width: 200px; border-radius: 10px;">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'add_medical_info' policy.id %}" class="btn btn-info">Add Medical Info</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}

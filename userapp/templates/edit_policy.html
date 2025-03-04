@@ -1,0 +1,140 @@
+{% load static %}
+{% include 'header.html' %}
+
+<style>
+    /* Wrapper with background image */
+    .wrapper {
+        background: url('{% static "images/topography.png" %}') no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* Card container */
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px; /* Reduced width */
+        text-align: center;
+    }
+
+    /* Heading */
+    h1 {
+        font-size: 22px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    /* Form styling */
+    form {
+        text-align: left;
+    }
+
+    /* Form labels */
+    label {
+        font-weight: 600;
+        color: #444;
+    }
+
+    /* Form inputs */
+    input, textarea, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.4);
+    }
+
+    /* Buttons */
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: all 0.3s ease-in-out;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Messages */
+    .messages {
+        margin-top: 15px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .messages li {
+        padding: 8px;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .messages .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .messages .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
+<div class="wrapper">
+    <div class="card">
+        <h1>Edit Policy</h1>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Policy</button>
+                <a href="{% url 'policy_detail' policy.id %}" class="btn btn-secondary">Cancel</a>
+            </form>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}

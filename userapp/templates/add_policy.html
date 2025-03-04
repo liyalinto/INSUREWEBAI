@@ -1,0 +1,142 @@
+{% load static %}
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Policy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Wrapper with background image */
+        .wrapper {
+            background: url('{% static "images/hero_bg_2.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Card container */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px; /* Reduced width */
+            text-align: center;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 22px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Form styling */
+        form {
+            text-align: left;
+        }
+
+        /* Form labels */
+        label {
+            font-weight: 600;
+            color: #444;
+        }
+
+        /* Form inputs */
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: all 0.3s ease-in-out;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message box */
+        #message {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="card">
+        <h1>Add New Policy</h1>
+        <form id="policyForm" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Policy</button>
+            <div id="message"></div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('policyForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = document.getElementById('policyForm');
+        const messageDiv = document.getElementById('message');
+
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageDiv.textContent = "Policy added successfully!";
+                form.reset();
+            } else {
+                messageDiv.textContent = data.message || "Error adding policy. Please try again.";
+                messageDiv.style.color = "red";
+            }
+        })
+        .catch(error => {
+            messageDiv.textContent = "An error occurred: " + error.message;
+            messageDiv.style.color = "red";
+        });
+    });
+</script>
+
+</body>
+</html>
+
+{% include 'footer.html' %}
